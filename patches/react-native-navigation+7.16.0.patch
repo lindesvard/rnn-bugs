@@ -1,0 +1,27 @@
+diff --git a/node_modules/react-native-navigation/lib/ios/RNNCommandsHandler.m b/node_modules/react-native-navigation/lib/ios/RNNCommandsHandler.m
+index bc015a4..d67dacb 100644
+--- a/node_modules/react-native-navigation/lib/ios/RNNCommandsHandler.m
++++ b/node_modules/react-native-navigation/lib/ios/RNNCommandsHandler.m
+@@ -307,6 +307,7 @@ - (void)popTo:(NSString *)componentId
+     RNNNavigationOptions *options = [[RNNNavigationOptions alloc] initWithDict:mergeOptions];
+     [vc mergeOptions:options];
+ 
++    if (vc) {
+     [vc.stack popTo:vc
+            animated:[vc.resolveOptionsWithDefault.animations.pop.enable withDefault:YES]
+          completion:^(NSArray *poppedViewControllers) {
+@@ -314,6 +315,14 @@ - (void)popTo:(NSString *)componentId
+            completion();
+          }
+           rejection:rejection];
++    } else {
++        [RNNErrorHandler
++                      reject:rejection
++               withErrorCode:1012
++            errorDescription:
++                [NSString stringWithFormat:@"Popping component failed - componentId '%@' not found",
++                                           componentId]];
++    }
+ }
+ 
+ - (void)popToRoot:(NSString *)componentId
