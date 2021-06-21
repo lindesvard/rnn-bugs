@@ -3,6 +3,8 @@ import {
   OptionsModalPresentationStyle,
 } from 'react-native-navigation';
 
+const tabs = ['Tab1', 'Tab2', 'Tab3', 'Tab4', 'Tab5', 'Tab6', 'Tab7'];
+
 const options = () => ({
   options: {
     animations: {
@@ -31,6 +33,33 @@ export const setRoot = (componentId) =>
             },
           },
         ],
+      },
+    },
+  });
+
+export const setTabs = () =>
+  Navigation.setRoot({
+    root: {
+      bottomTabs: {
+        id: 'BOTTOM_TABS',
+        children: tabs.map((tabName) => ({
+          stack: {
+            id: `TAB:${tabName}`,
+            children: [
+              {
+                component: {
+                  id: tabName,
+                  name: tabName,
+                },
+              },
+            ],
+            options: {
+              bottomTab: {
+                text: tabName,
+              },
+            },
+          },
+        })),
       },
     },
   });
